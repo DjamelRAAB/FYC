@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace : fyc-apps
+  name: app-vote-back
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-vote-back
+  template:
+    metadata:
+      labels:
+        app: app-vote-back
+    spec:
+      nodeSelector:
+        "beta.kubernetes.io/os": linux
+      containers:
+      - name: app-vote-back
+        image: containerRegistryFYC.azurecr.io/redis:6.0.8
+        env:
+        - name: ALLOW_EMPTY_PASSWORD
+          value: "yes"
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 250m
+            memory: 256Mi
+        ports:
+        - containerPort: 6379
+          name: redis
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace : fyc-apps
+  name: app-vote-back
+spec:
+  ports:
+  - port: 6379
+  selector:
+    app: app-vote-back
+  type: ClusterIP

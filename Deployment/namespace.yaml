@@ -1,0 +1,14 @@
+apiVersion: v1 
+kind: Namespace 
+metadata: 
+  name: fyc-apps
+  labels: 
+    purpose: fyc
+---
+apiVersion: v1 
+kind: Namespace 
+metadata:
+  name: fyc-ek
+  labels: 
+    purpose: fyc
+

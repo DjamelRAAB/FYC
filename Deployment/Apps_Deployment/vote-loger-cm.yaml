@@ -1,0 +1,24 @@
+apiVersion: v1
+data:
+    filebeat.yml: |-
+      #=========================== Filebeat inputs =============================
+      filebeat.inputs:
+      - type: log
+        paths:
+          - /data/logs/*.log
+      #==================== Elasticsearch template setting ==========================
+      setup.template.name: "filebeat"
+      setup.template.pattern: "filebeat-*"
+      #output.console:
+      #  pretty: true
+      #================================ Outputs =====================================
+      output.elasticsearch:
+        hosts: ["51.138.223.41:9200"]
+        index: 'filebeat-app-vote'
+        protocol: "http"
+kind: ConfigMap
+metadata:
+    labels:
+      app: filebeat-loger-config
+    name: filebeat-config
+    namespace: fyc-apps

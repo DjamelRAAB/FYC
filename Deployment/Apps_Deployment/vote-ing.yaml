@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  namespace: fyc-apps
+  name: app-vote-ingress
+  annotations:
+    kubernetes.io/ingress.class: addon-http-application-routing
+    nginx.ingress.kubernetes.io/rewrite-target: / 
+spec:
+  rules:
+  - host: fyc-app-vote.efdb917567124fc9be86.francecentral.aksapp.io
+    http:
+      paths:
+      - backend:
+          serviceName: app-vote-front
+          servicePort: 80
+        path: / 

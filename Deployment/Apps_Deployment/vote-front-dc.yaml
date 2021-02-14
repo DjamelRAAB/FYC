@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace : fyc-apps
+  name: app-vote-front
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-vote-front
+  template:
+    metadata:
+      labels:
+        app: app-vote-front
+    spec:
+      nodeSelector:
+        "beta.kubernetes.io/os": linux
+      containers:
+      - name: app-vote-front
+        image: containerRegistryFYC.azurecr.io/vote-front:v1
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 250m
+            memory: 256Mi
+        ports:
+        - containerPort: 80
+        env:
+        - name: REDIS
+          value: "app-vote-back"
+        volumeMounts:
+        - mountPath: /data/logs
+          name: shared-logs
+      - image: containerRegistryFYC.azurecr.io/loger-filebeat:6.8
+        name: loger-filebeat
+        resources: 
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 250m
+            memory: 256Mi
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - mountPath: /data/logs
+          name: shared-logs
+        - mountPath: /etc/filebeat
+          name: filebeat-config
+          readOnly: true 
+      volumes:
+      - name: shared-logs
+        emptyDir: {}
+      - configMap:
+          defaultMode: 0640
+          name: filebeat-config
+        name: filebeat-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace : fyc-apps
+  name: app-vote-front
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+  selector:
+    app: app-vote-front
+
+
+    
