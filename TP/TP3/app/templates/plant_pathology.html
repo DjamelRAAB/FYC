@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+  <title>Plant pathology prediction</title>
+
+  <!-- CSS   -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<style>
+  body {
+    background-color: #d3e8e1;
+    margin-top: 100px;
+    margin-bottom: 100px;
+  }
+  h1 {
+    color: maroon;
+    margin-left: 40px;
+  }
+  .form-control-file {
+    width: auto;
+    margin: 26px;
+  }
+</style>
+</head>
+
+<body>
+  
+<div class="container" align="center">
+  
+<div align="center">
+  <h1>Plant pathology</h1>
+<img src="https://cdn.pixabay.com/photo/2016/04/24/17/27/wood-1350175_960_720.jpg" height=200 align="center">
+</div>
+
+  <form action='/predict' method="POST" enctype="multipart/form-data">
+    <div class="form-group" align="center">
+        <h2>Please insert a plant's image</h2>
+        <input name="img" accept='image/*' id="img" type="file" class="form-control-file">
+        <button type="submit" class="btn-large btn-dark">Predict Probability</button>
+    </div>
+  </form>
+  <div align="center">
+    <h2>{{pred}}</h2>
+    <img src="{{ user_image }}">
+    {{img}}
+  </div>
+</div>     
+
+  <!--  Scripts-->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+
+  </body>
+</html>
+
